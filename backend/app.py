@@ -1,7 +1,5 @@
 # backend/app.py
 from auth import spotify_client as sp
+from utils.playlist import get_user_playlists
 
-results = sp.current_user_saved_tracks()
-for idx, item in enumerate(results['items']):
-    track = item['track']
-    print(idx, track['artists'][0]['name'], " – ", track['name'])
+print(get_user_playlists())
