@@ -1,2 +1,1 @@
-# loona-boycott
-Modifies playlist to be LOONA-free!
+an app that replaces all loona songs with their ripoffs so you don't give any money to Blockberry Creative (ew)
