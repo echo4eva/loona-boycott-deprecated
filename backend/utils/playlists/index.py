@@ -1,4 +1,4 @@
-# backend/utils/playlist/index.py
+# backend/utils/playlists/index.py
 from auth import spotify_client as sp
 
 def get_user_playlists():
