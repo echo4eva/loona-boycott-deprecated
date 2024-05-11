@@ -3,11 +3,8 @@ from auth import spotify_client as sp
 
 def get_user_playlist_items(playlist_id: str):
     songs = dict()
-    # fields_list = ["items.track.name", "items.track.id"]
-    # fields_list = ["items"]
-    # fields = ",".join(fields_list)
 
-    results = sp.playlist_items(playlist_id=playlist_id)
+    results = sp.playlist_items(playlist_id=playlist_id, additional_types=["track", "episode"])
     items = results['items']
 
     # Check if there are more items to retrieve
@@ -15,9 +12,12 @@ def get_user_playlist_items(playlist_id: str):
         results = sp.next(results)
         items.extend(results['items'])
     
+    # print(items)
+    
     for item in items:
-        track_name = item["track"]["name"]
-        track_id = item["track"]["id"]
+        # print(item)
+        track_name = item['track']['name']
+        track_id = item['track']['id']
         songs[track_name] = track_id
 
     return songs

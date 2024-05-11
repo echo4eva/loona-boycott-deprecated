@@ -1,8 +1,9 @@
 # backend/app.py
 from auth import spotify_client as sp
 from utils.playlist_items import get_user_playlist_items
-from utils.artist_songs import get_album_songs, get_artists_songs
-from utils.show_items import get_episodes
+from utils.artist_songs import get_album_songs, get_artists_songs, loona_songs_dict as loona_songs
+from utils.show_items import get_episodes, loona_episodes_dict as loona_episodes
+from utils.replace import replace_songs_with_ep
 
 # https://open.spotify.com/playlist/2IHjQHNDmDJgaDO1Zb2Awu?si=bc94f0da58114a05 - loona
 # https://open.spotify.com/playlist/563dtXdul1CzsAHmegOxLS?si=4ef14a04fc3749a3 - test small
@@ -24,10 +25,20 @@ def get_songs_from_album(album_id: str):
 
 # https://open.spotify.com/show/1pjU1f2PfoIf4NS3eYT925?si=dfc309fa91004d69
 def test_get_episodes_from_show(show_id: str):
-    get_episodes(show_id)
+    print(get_episodes(show_id))
+
+# https://open.spotify.com/playlist/62Fi7ebGvquiSEY2jtHOBX?si=8d311be48b6947c4
+# https://open.spotify.com/playlist/62Fi7ebGvquiSEY2jtHOBX?si=b19c5aba597a422b
+# https://open.spotify.com/playlist/05LoDrNr2K5hBI6pacgDQq?si=410a7c84d06543da
+# https://open.spotify.com/playlist/05LoDrNr2K5hBI6pacgDQq?si=a271eecfd9ed4003
+# https://open.spotify.com/playlist/6cMxeISW5ozHanN7g9vKOQ?si=298d8c9ce57c4098
+# https://open.spotify.com/playlist/3BmL33mEM1wZSo6VdFqwuq?si=eca6bb8efbd94358 - test3
+def test_replace(playlist_id: str):
+    replace_songs_with_ep(playlist_id)
     
 def main():
     # test_get_playlist_songs("1pjU1f2PfoIf4NS3eYT925")
-    test_get_episodes_from_show("1pjU1f2PfoIf4NS3eYT925")
+    # test_get_episodes_from_show("1pjU1f2PfoIf4NS3eYT925")
+    test_replace("3BmL33mEM1wZSo6VdFqwuq")
 
 main()

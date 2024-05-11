@@ -1,0 +1,1 @@
+from .index import replace_songs_with_ep
