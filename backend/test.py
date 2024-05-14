@@ -1,4 +1,4 @@
-# backend/app.py
+# backend/test.py
 from auth import spotify_client as sp
 from utils.playlist_items import get_user_playlist_items
 from utils.artist_songs import get_album_songs, get_artists_songs, loona_songs_dict as loona_songs, get_all_loona_songs
@@ -38,6 +38,7 @@ def test_get_episodes_from_show(show_id: str):
 # https://open.spotify.com/playlist/603yyqn7eHkHC5ivgM0QPY?si=5501fd870dcb403a - final test
 # https://open.spotify.com/playlist/6iJbS24vIDwaXlJj8FF4sd?si=2d19ba1b0cfd4f50 -  all loona test 1
 # https://open.spotify.com/playlist/69Gah7Afxla1eHtAtZzukQ?si=b1744cdd48314353 - myne
+# https://open.spotify.com/playlist/1f7Zfu4uf5rAlpWoX5R4vA?si=5a67b0a9e727473a - myne whole shibal maxing!
 def test_replace(playlist_id: str):
     replace_songs_with_ep(playlist_id)
     
@@ -45,6 +46,6 @@ def main():
     # test_get_playlist_songs("1VWVekcOvgOQOGrfJueTap")
     # test_get_playlist_songs("3z8RkYc7me0p9jUcBRJshM")
     # test_get_episodes_from_show("1pjU1f2PfoIf4NS3eYT925")
-    test_replace("69Gah7Afxla1eHtAtZzukQ")
+    test_replace("1f7Zfu4uf5rAlpWoX5R4vA")
 
 main()
