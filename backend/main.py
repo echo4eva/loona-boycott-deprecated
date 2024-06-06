@@ -1,16 +1,17 @@
 # backend\main.py
 from flask import Flask, redirect, request, jsonify, session
 from flask_cors import CORS
+from flask_session import Session
 from auth import get_spotify_auth, get_token
-from dotenv import load_dotenv
 from utils.replace import replace_songs_with_ep
-load_dotenv()
-import os
 import spotipy
+from config import ApplicationConfig
 
 app = Flask(__name__)
-app.secret_key = os.getenv('FLASK_SECRET_KEY')
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}}, supports_credentials=True)
+app.config.from_object(ApplicationConfig)
+server_session = Session(app)
+# CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}}, supports_credentials=True)
+cors = CORS(app, supports_credentials=True)
 
 @app.route("/")
 def read_root():
@@ -30,11 +31,11 @@ def call_back():
     token_info = sp_auth.get_access_token(code)
     session['TOKEN_INFO'] = token_info
 
-    frontend_redirect_url = f'http://localhost:3000/'
+    frontend_redirect_url = f'http://127.0.0.1:3000'
     return redirect(frontend_redirect_url)
 
     # for debugging
-    # return session['TOKEN_INFO']
+    # return jsonify(session['TOKEN_INFO'])
 
 @app.route('/me')
 def test_token():
@@ -42,9 +43,11 @@ def test_token():
     if access_token:
         sp = spotipy.Spotify(auth=access_token)
         user_info = sp.me()
-        return jsonify(user_info), 200
+        response = jsonify(user_info), 200
+        return response
     else:
-        return jsonify({'error' : 'failed to get access token'}), 401
+        response = jsonify({'error' : 'failed to get access token'}), 401
+        return response
     
 @app.route('/boycott', methods=['POST'])
 def boycott_playlist():
@@ -62,8 +65,6 @@ def boycott_playlist():
             return jsonify({'error': 'Playlist ID is required'}), 400
     else:
         return jsonify({'error': 'Failed to retrieve access token'}), 401
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -65,24 +65,27 @@ def get_token():
     """
     Retrieves the access token from the session, refreshing it if necessary.
     """
-    token_info = session.get('TOKEN_INFO')
+    try:
+        token_info = session.get('TOKEN_INFO')
 
-    access_token = token_info.get('access_token')
-    expires_at = token_info.get('expires_at')
+        access_token = token_info.get('access_token')
+        expires_at = token_info.get('expires_at')
 
-    now = int(time.time())
-    # Check if the access token is expired
-    if expires_at < now:
-        # Access token is expired, refresh it
-        new_token_info = refresh_access_token(token_info.get('refresh_token'))
+        now = int(time.time())
+        # Check if the access token is expired
+        if expires_at < now:
+            # Access token is expired, refresh it
+            new_token_info = refresh_access_token(token_info.get('refresh_token'))
 
-        if new_token_info:
-            # Update the token info in the session
-            session['TOKEN_INFO'] = new_token_info
-            return new_token_info['access_token']
+            if new_token_info:
+                # Update the token info in the session
+                session['TOKEN_INFO'] = new_token_info
+                return new_token_info['access_token']
+            else:
+                # Failed to refresh the access token
+                return None
         else:
-            # Failed to refresh the access token
-            return None
-    else:
-        # Access token is still valid, return it
-        return access_token
+            # Access token is still valid, return it
+            return access_token
+    except:
+        return None

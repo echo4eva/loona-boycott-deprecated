@@ -10,8 +10,8 @@ const LoginButton: React.FC = () => {
     const handleLogin = async () => {
         try {
             const response = await axios.get(
-                'http://localhost:5000/login',
-                { withCredentials: true}
+                'http://127.0.0.1:5000/login',
+                { withCredentials: true }
             );
             const { auth_url } = response.data;
             console.log( auth_url )
@@ -27,7 +27,7 @@ const LoginButton: React.FC = () => {
     const getUserInfo = async() => {
         try {
             const response = await axios.get(
-                'http://localhost:5000/me',
+                'http://127.0.0.1:5000/me',
                 { withCredentials: true}
             );
             setUserInfo(response.data)
