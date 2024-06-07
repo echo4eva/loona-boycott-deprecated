@@ -1,5 +1,5 @@
 // src/components/LoginButton.tsx
-
+import { Button } from "@/components/ui/button";
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -28,7 +28,7 @@ const LoginButton: React.FC = () => {
         try {
             const response = await axios.get(
                 'http://127.0.0.1:5000/me',
-                { withCredentials: true}
+                { withCredentials: true }
             );
             setUserInfo(response.data)
         }
@@ -39,8 +39,8 @@ const LoginButton: React.FC = () => {
 
     return (
         <div>
-            <button onClick={handleLogin}>Login</button>
-            <button onClick={getUserInfo}>Get User Info</button>
+            <Button onClick={handleLogin}>Login</Button>
+            <Button onClick={getUserInfo}>Get User Info</Button>
             {message && <p>{message}</p>}
             {userInfo && (
                 <div>
