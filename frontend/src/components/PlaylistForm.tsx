@@ -19,13 +19,29 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
+
+
+// validates if correct if it's a playlist url
+function isValidUrl(url: string): boolean {
+    try {
+        const baseSpotifyURL = 'https://open.spotify.com/playlist/';
+        const parsedUrl = new URL(url);
+
+        console.log(parsedUrl.origin)
+
+        return parsedUrl.origin + "/playlist/" === baseSpotifyURL;
+    } catch (error) {
+        return false;
+    }
+}
 
 // schema/blueprint for validation
 const formSchema = z.object ({
-    playlist: z.string().url({
+    playlist: z.string().url().refine((playlist) => isValidUrl(playlist), {
         message: "Invalid url",
     }),
-})
+});
 
 // take apart 
 function extractId(playlist_url: string): string | null {
@@ -35,6 +51,8 @@ function extractId(playlist_url: string): string | null {
 }
 
 export function PlaylistForm() {
+
+    const [status, setStatus] = useState<boolean>(false);
 
     const handleOnSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -48,10 +66,11 @@ export function PlaylistForm() {
                     }
                 },
             );
-            console.log( values )
-
+            console.log(values);
+            setStatus(true);
         } catch (error) {
             console.error('Error during submission:', error);
+            setStatus(false);
         }
     };
 
@@ -81,7 +100,7 @@ export function PlaylistForm() {
                                 <Input placeholder="Spotify Playlist URL" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Put the playlist to convert here!
+                                {status == false ? (<>Put the playlist to convert above!</>) : (<>Success, check your playlist!</>)} 
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
