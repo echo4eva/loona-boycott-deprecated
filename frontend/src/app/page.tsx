@@ -35,13 +35,15 @@ export default function Home() {
         <h5>replaces your official streams with episodes</h5>
       </header>
       {userInfo != null ? (
-        <p>hi {userInfo.display_name}!</p>
+        <>
+          <p>hi {userInfo.display_name}!</p>
+          <PlaylistForm />
+        </>
       )
       :
       (
         <LoginButton />
       )}
-      <PlaylistForm />
     </main>
   );
 }
