@@ -9,11 +9,9 @@ def replace_songs_with_ep(playlist_id: str):
     to_add_id = []
 
     user_songs = get_user_playlist_items(playlist_id)
-    # print(user_songs)
 
     for song, song_ids in user_songs.items():
-        if song in loona_songs:
-            # print(song, " is here!")
+        if song in loona_songs and song_ids[0] != loona_eps[song]:
             to_remove_id.extend(song_ids)
             to_add_id.append("spotify:episode:" + loona_eps[song])
     
