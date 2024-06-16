@@ -53,6 +53,7 @@ function extractId(playlist_url: string): string | null {
 export function PlaylistForm() {
 
     const [status, setStatus] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
 
     const handleOnSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -66,10 +67,12 @@ export function PlaylistForm() {
                     }
                 },
             );
-            console.log(values);
+            console.log(response);
+            setMessage(response.data.message);
             setStatus(true);
         } catch (error) {
             console.error('Error during submission:', error);
+            setMessage(response.data.message)
             setStatus(false);
         }
     };
@@ -100,7 +103,7 @@ export function PlaylistForm() {
                                 <Input placeholder="Spotify Playlist URL" {...field} />
                             </FormControl>
                             <FormDescription>
-                                {status == false ? (<>Put the playlist to convert above!</>) : (<>Success, check your playlist!</>)} 
+                                {message == "" ? (<>Put the playlist to convert above!</>) : (<>{message}</>)} 
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
