@@ -50,9 +50,14 @@ function extractId(playlist_url: string): string | null {
     return match ? match[1] : null;
 }
 
+interface MessageComponentProps {
+  message: string;
+  status: int;
+}
+
 export function PlaylistForm() {
 
-    const [status, setStatus] = useState<boolean>(false);
+    const [status, setStatus] = useState<number>(0);
     const [message, setMessage] = useState<string>("");
 
     const handleOnSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -67,12 +72,14 @@ export function PlaylistForm() {
                     }
                 },
             );
-            console.log(response);
+            console.log('success:', response);
             setMessage(response.data.message);
-            setStatus(true);
+            console.log(response.status);
+            setStatus(response.status);
+            console.log(status);
         } catch (error) {
             console.error('Error during submission:', error);
-            setMessage(response.data.message)
+            setMessage(error.message);
             setStatus(false);
         }
     };
